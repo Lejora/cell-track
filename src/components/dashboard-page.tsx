@@ -11,12 +11,11 @@ import { MapView } from "./map-view"
 import { useQuery } from "convex/react"
 import { api } from "../../convex/_generated/api"
 import { CellLog } from "./columns"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 export const DashboardPage = () => {
   const recordCount = useQuery(api.cellLogs.count) ?? 0;
   const [selectedLogs, setSelectedLogs] = useState<CellLog[]>([])
-
 
   return (
     <div className="flex flex-col h-screen w-full">
@@ -62,7 +61,6 @@ export const DashboardPage = () => {
             </TabsContent>
           </Tabs>
         </div>
-
 
       </div>
     </div>

@@ -1,4 +1,4 @@
-import { Checkbox } from "@radix-ui/react-checkbox";
+import { Checkbox } from "./ui/checkbox";
 import { ColumnDef } from "@tanstack/react-table"
 import { ArrowUpDown, Edit, Trash2 } from "lucide-react";
 import { Id } from "../../convex/_generated/dataModel";

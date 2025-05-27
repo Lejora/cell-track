@@ -33,17 +33,19 @@ export const DataTable = ({ onSelectionChange }: DataTableProps) => {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [rowSelection, setRowSelection] = useState({});
 
-
   const table = useReactTable({
     data,
     columns,
     state: {
-      sorting
+      sorting,
+      rowSelection
     },
     onRowSelectionChange: setRowSelection,
     onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
+    enableRowSelection: true,
+    enableMultiRowSelection: true,
     meta: {
       removeRow: (id: Id<"cellLogs">) => deleteLog({ id }),
     }
