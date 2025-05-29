@@ -123,7 +123,7 @@ export const AddCellLogDialog = () => {
               <Label htmlFor="tac">TAC (hex)</Label>
               <Input
                 id="tac"
-                placeholder="6016"
+                placeholder="1780"
                 value={form.tac}
                 onChange={(e) => setForm(f => ({ ...f, tac: e.target.value }))}
               />
@@ -132,7 +132,7 @@ export const AddCellLogDialog = () => {
               <Label htmlFor="cid">CID (hex)</Label>
               <Input
                 id="cid"
-                placeholder="44734864"
+                placeholder="2AA8D11"
                 value={form.cid}
                 onChange={(e) => setForm(f => ({ ...f, cid: e.target.value }))}
               />

@@ -1,18 +1,18 @@
+import { LatLngAcc } from "@/hooks/use-geolocations";
 import {
-  GoogleMap,
   Circle,
+  GoogleMap,
   MarkerF,
   useLoadScript,
 } from "@react-google-maps/api";
 import { useEffect, useState } from "react";
 import { Skeleton } from "./ui/skeleton";
-import { CellLog } from "./columns";
 
 interface MapViewProps {
-  logs: CellLog[];
+  points: LatLngAcc[];
 }
 
-export const MapView = ({ logs }: MapViewProps) => {
+export const MapView = ({ points }: MapViewProps) => {
   const INIT_CENTER_LAT = 36.108905769550155;
   const INIT_CENTER_LNG = 140.0997873925421;
   const INIT_ZOOM_LEVEL = 15;
@@ -29,15 +29,14 @@ export const MapView = ({ logs }: MapViewProps) => {
     },
   ];
 
-  // TODO: fix below
   const center = { lat: INIT_CENTER_LAT, lng: INIT_CENTER_LNG };
   const zoom = INIT_ZOOM_LEVEL;
 
-  // useEffect(() => {
-  //   if (map && center) {
-  //     map.panTo(center);
-  //   }
-  // }, [center, map]);
+  useEffect(() => {
+    if (map && center) {
+      map.panTo(center);
+    }
+  }, [center, map]);
 
   if (!isLoaded) {
     return (
@@ -60,15 +59,26 @@ export const MapView = ({ logs }: MapViewProps) => {
         rotateControl: false,
       }}
     >
-      {logs.map((log, index) => (
-        <MarkerF
-          key={index}
-          // TODO: FIX THIS
-          position={{
-            lat: 1,
-            lng: 1,
-          }}
-        />
+      {points.map((point, index) => (
+        <div key={index}>
+          <MarkerF
+            key={index}
+            position={{ lat: point.location.lat, lng: point.location.lng }}
+          />
+          {point.accuracy && (
+            <Circle
+              center={{ lat: point.location.lat, lng: point.location.lng }}
+              radius={point.accuracy}
+              options={{
+                fillColor: "#fa6e6e",
+                fillOpacity: 0.05,
+                strokeColor: "#fa6e6e",
+                strokeOpacity: 0.7,
+                strokeWeight: 1,
+              }}
+            />
+          )}
+        </div>
       ))}
     </GoogleMap>
   );

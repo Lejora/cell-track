@@ -1,44 +1,46 @@
 "use client";
 
 import {
-  useReactTable,
-  getCoreRowModel,
   flexRender,
+  getCoreRowModel,
   getSortedRowModel,
+  RowSelectionState,
+  useReactTable,
 } from "@tanstack/react-table";
 import {
   Table,
-  TableHeader,
-  TableRow,
-  TableHead,
   TableBody,
   TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
 } from "./ui/table";
 
-import { useMutation, useQuery } from "convex/react";
-import { api } from "../../convex/_generated/api";
-import { CellLog, createColumns } from "./columns";
-import { Id } from "../../convex/_generated/dataModel";
-import { useEffect, useState } from "react";
 import { SortingState } from "@tanstack/react-table";
+import { useMutation } from "convex/react";
+import { useEffect, useMemo, useState } from "react";
+import { api } from "../../convex/_generated/api";
+import { Id } from "../../convex/_generated/dataModel";
+import { CellLog, createColumns } from "./columns";
 
 interface DataTableProps {
-  onSelectionChange: (selected: CellLog[]) => void
+  data: CellLog[];
+  onRowSelected: (row: CellLog[]) => void;
 }
 
-export const DataTable = ({ onSelectionChange }: DataTableProps) => {
-  const data = useQuery(api.cellLogs.listAll) ?? [];
-  const deleteLog = useMutation(api.cellLogs.remove);
-  const columns = createColumns(deleteLog);
+export const DataTable = ({ data, onRowSelected }: DataTableProps) => {
+  const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
   const [sorting, setSorting] = useState<SortingState>([]);
-  const [rowSelection, setRowSelection] = useState({});
+
+  const deleteLog = useMutation(api.cellLogs.remove);
+  const columns = useMemo(() => createColumns(deleteLog), [deleteLog]);
 
   const table = useReactTable({
     data,
     columns,
     state: {
       sorting,
-      rowSelection
+      rowSelection,
     },
     onRowSelectionChange: setRowSelection,
     onSortingChange: setSorting,
@@ -48,22 +50,26 @@ export const DataTable = ({ onSelectionChange }: DataTableProps) => {
     enableMultiRowSelection: true,
     meta: {
       removeRow: (id: Id<"cellLogs">) => deleteLog({ id }),
-    }
+    },
   });
 
   useEffect(() => {
-    onSelectionChange(table.getSelectedRowModel().rows.map((row) => row.original));
-  }, [rowSelection, onSelectionChange, table]);
+    const selected = table.getSelectedRowModel().rows.map((r) => r.original);
+    onRowSelected(selected);
+  }, [table.getState().rowSelection, onRowSelected]);
 
   return (
-    <div className="rounded-md border bg-background p-4">
+    <div className="rounded-md border bg-background p-4 w-[1240px]">
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => (
                 <TableHead key={header.id}>
-                  {flexRender(header.column.columnDef.header, header.getContext())}
+                  {flexRender(
+                    header.column.columnDef.header,
+                    header.getContext()
+                  )}
                 </TableHead>
               ))}
             </TableRow>
@@ -83,4 +89,4 @@ export const DataTable = ({ onSelectionChange }: DataTableProps) => {
       </Table>
     </div>
   );
-}
+};

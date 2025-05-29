@@ -1,21 +1,27 @@
-"use client"
+"use client";
 
-import { Search, Table, Map } from "lucide-react"
-import { DashboardHeader } from "./dashboard-header"
-import { Input } from "./ui/input"
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "./ui/tabs"
-import { DashboardStatus } from "./dashboard-stats"
-import { DataTable } from "./data-table"
-import { AddCellLogDialog } from "./add-cell-log-dialog"
-import { MapView } from "./map-view"
-import { useQuery } from "convex/react"
-import { api } from "../../convex/_generated/api"
-import { CellLog } from "./columns"
-import { useEffect, useState } from "react"
+import { useGeolocations } from "@/hooks/use-geolocations";
+import { useQuery } from "convex/react";
+import { Map, Search, Table } from "lucide-react";
+import { useState } from "react";
+import { api } from "../../convex/_generated/api";
+import { AddCellLogDialog } from "./add-cell-log-dialog";
+import { CellLog } from "./columns";
+import { DashboardHeader } from "./dashboard-header";
+import { DashboardStatus } from "./dashboard-stats";
+import { DataTable } from "./data-table";
+import { MapView } from "./map-view";
+import { Input } from "./ui/input";
+import { Skeleton } from "./ui/skeleton";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 
 export const DashboardPage = () => {
   const recordCount = useQuery(api.cellLogs.count) ?? 0;
-  const [selectedLogs, setSelectedLogs] = useState<CellLog[]>([])
+  const data = useQuery(api.cellLogs.listAll) ?? [];
+
+  const [selectedLogs, setSelectedLogs] = useState<CellLog[]>([]);
+
+  const { geolocations, isLoading, isError } = useGeolocations(selectedLogs);
 
   return (
     <div className="flex flex-col h-screen w-full">
@@ -32,7 +38,7 @@ export const DashboardPage = () => {
                 placeholder="データを検索..."
                 className="w-full rounded-md pl-8 md:w-[200px] lg:w-[300px]"
                 value={""}
-                onChange={() => { }}
+                onChange={() => {}}
               />
             </div>
             <AddCellLogDialog />
@@ -54,15 +60,18 @@ export const DashboardPage = () => {
               </TabsTrigger>
             </TabsList>
             <TabsContent value="table" className="mt-4 w-full">
-              <DataTable onSelectionChange={setSelectedLogs} />
+              <DataTable data={data} onRowSelected={setSelectedLogs} />
             </TabsContent>
             <TabsContent value="map" className="mt-4 w-full">
-              <MapView logs={selectedLogs} />
+              {isLoading || isError ? (
+                <Skeleton />
+              ) : (
+                <MapView points={geolocations} />
+              )}
             </TabsContent>
           </Tabs>
         </div>
-
       </div>
     </div>
-  )
-}
+  );
+};

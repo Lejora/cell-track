@@ -1,7 +1,6 @@
-"use client"
+"use client";
 
-import { Radio, Home, Settings, User } from "lucide-react"
-import { Button } from "./ui/button"
+import { Radio, Home, Settings } from "lucide-react";
 import {
   Sidebar,
   SidebarHeader,
@@ -13,8 +12,8 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
   SidebarFooter,
-  useSidebar
-} from "./ui/sidebar"
+  useSidebar,
+} from "./ui/sidebar";
 
 export const DashboardSidebar = () => {
   return (
@@ -60,14 +59,7 @@ export const DashboardSidebar = () => {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter>
-        <div className="px-3 py-2">
-          <Button variant="outline" className="w-full justify-start">
-            <User className="mr-2 h-4 w-4" />
-            <span>Profile</span>
-          </Button>
-        </div>
-      </SidebarFooter>
+      <SidebarFooter></SidebarFooter>
     </Sidebar>
-  )
-}
+  );
+};
