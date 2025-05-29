@@ -20,6 +20,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "./ui/tooltip";
+import { EditCellLogDialog } from "./edit-cell-log-dialog";
 
 export type CellLog = {
   _id: Id<"cellLogs">;
@@ -150,17 +151,14 @@ export const createColumns = (
           <div className="flex items-center gap-2">
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-8 w-8 text-gray-600 hover:text-gray-700 hover:bg-gray-50"
-                  onClick={() => {
-                    console.log("edit", log._id);
-                  }}
-                >
-                  <Edit className="h-4 w-4" />
-                  <span className="sr-only">Edit</span>
-                </Button>
+                <EditCellLogDialog
+                  targetRowId={log._id}
+                  prevTime={log.time}
+                  prevMNC={log.mnc}
+                  prevMCC={log.mcc}
+                  prevCID={log.cid}
+                  prevTAC={log.tac}
+                />
               </TooltipTrigger>
               <TooltipContent>
                 <p>Edit</p>

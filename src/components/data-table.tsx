@@ -33,6 +33,7 @@ export const DataTable = ({ data, onRowSelected }: DataTableProps) => {
   const [sorting, setSorting] = useState<SortingState>([]);
 
   const deleteLog = useMutation(api.cellLogs.remove);
+  const editLog = useMutation(api.cellLogs.edit);
   const columns = useMemo(() => createColumns(deleteLog), [deleteLog]);
 
   const table = useReactTable({

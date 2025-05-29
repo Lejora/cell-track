@@ -37,3 +37,17 @@ export const remove = mutation({
     await ctx.db.delete(args.id);
   },
 });
+
+export const edit = mutation({
+  args: {
+    id: v.id("cellLogs"),
+    time: v.string(),
+    mcc: v.string(),
+    mnc: v.string(),
+    tac: v.string(),
+    cid: v.string(),
+  },
+  handler: async (ctx, { id, time, mcc, mnc, tac }) => {
+    await ctx.db.patch(id, { time, mcc, mnc, tac });
+  },
+});
