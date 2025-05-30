@@ -11,14 +11,14 @@ export interface LatLngAcc {
   accuracy?: number;
 }
 
-export const useGeolocations = (logs: CellLog[]) => {
-  const [geolocations, setGeolocations] = useState<LatLngAcc[]>([]);
+export const useGeolocation = (logs: CellLog[]) => {
+  const [geolocation, setGeolocation] = useState<LatLngAcc[]>([]);
   const [isLoading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
     if (logs.length === 0) {
-      setGeolocations([]);
+      setGeolocation([]);
       return;
     }
 
@@ -38,14 +38,15 @@ export const useGeolocations = (logs: CellLog[]) => {
               const { error: msg } = await res.json();
               throw new Error(msg || "Failed to fetch");
             }
-            const json: { location: LatLng; accuracy?: number } = await res.json();
+            const json: { location: LatLng; accuracy?: number } =
+              await res.json();
             return {
               location: json.location,
               accuracy: json.accuracy,
             };
           })
         );
-        setGeolocations(resArr);
+        setGeolocation(resArr);
       } catch (e) {
         setError(e as Error);
       } finally {
@@ -55,7 +56,7 @@ export const useGeolocations = (logs: CellLog[]) => {
   }, [logs]);
 
   return {
-    geolocations,
+    geolocation,
     isLoading,
     isError: !!error,
   };
