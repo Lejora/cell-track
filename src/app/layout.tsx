@@ -1,10 +1,9 @@
+import { SidebarProvider } from "@/components/ui/sidebar";
+import { Toaster } from "@/components/ui/toaster";
 import type { Metadata } from "next";
 import { Noto_Sans_JP } from "next/font/google";
-import "./globals.css";
-import { SidebarProvider } from "@/components/ui/sidebar";
-import { DashboardSidebar } from "@/components/dashboard-sidebar";
 import { ConvexClientProvider } from "./ConvexClientProvider";
-import { Toaster } from "@/components/ui/toaster";
+import "./globals.css";
 
 const notoSansJP = Noto_Sans_JP({
   variable: "--font-noto-sans-jp",
@@ -22,13 +21,13 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
   return (
     <html lang="ja">
       <body
         className={`${notoSansJP.className} antialiased`}
       >
         <SidebarProvider>
-          <DashboardSidebar />
           <main className="flex flex-col flex-1">
             <ConvexClientProvider>
               {children}
