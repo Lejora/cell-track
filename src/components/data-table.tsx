@@ -5,6 +5,7 @@ import {
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
+  getPaginationRowModel,
   getSortedRowModel,
   RowSelectionState,
   useReactTable,
@@ -26,6 +27,7 @@ import { Id } from "../../convex/_generated/dataModel";
 import { AddCellLogDialog } from "./add-cell-log-dialog";
 import { CellLog, createColumns } from "./columns";
 import { DataSearchBox } from "./data-search-box";
+import { Pagination } from "./pagination";
 
 interface DataTableProps {
   data: CellLog[];
@@ -47,7 +49,7 @@ export const DataTable = ({ data, onRowSelected }: DataTableProps) => {
     state: {
       sorting,
       rowSelection,
-      columnFilters
+      columnFilters,
     },
     onRowSelectionChange: setRowSelection,
     onSortingChange: setSorting,
@@ -55,6 +57,7 @@ export const DataTable = ({ data, onRowSelected }: DataTableProps) => {
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
     enableRowSelection: true,
     enableMultiRowSelection: true,
     meta: {
@@ -108,6 +111,7 @@ export const DataTable = ({ data, onRowSelected }: DataTableProps) => {
           ))}
         </TableBody>
       </Table>
+      <Pagination table={table} />
     </div>
   );
 };
