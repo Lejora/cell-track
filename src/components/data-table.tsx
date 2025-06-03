@@ -18,20 +18,18 @@ import {
   TableHeader,
   TableRow,
 } from "./ui/table";
-
 import { SortingState } from "@tanstack/react-table";
-import { useMutation } from "convex/react";
 import { useEffect, useMemo, useState } from "react";
-import { api } from "../../convex/_generated/api";
-import { Id } from "../../convex/_generated/dataModel";
+import { SelectCellLog } from "@/db/schema";
+import { deleteCellLog } from "@/lib/client-queries";
 import { AddCellLogDialog } from "./add-cell-log-dialog";
-import { CellLog, createColumns } from "./columns";
+import { createColumns } from "./columns";
 import { DataSearchBox } from "./data-search-box";
 import { Pagination } from "./pagination";
 
 interface DataTableProps {
-  data: CellLog[];
-  onRowSelected: (row: CellLog[]) => void;
+  data: SelectCellLog[];
+  onRowSelected: (row: SelectCellLog[]) => void;
 }
 
 export const DataTable = ({ data, onRowSelected }: DataTableProps) => {
@@ -40,9 +38,10 @@ export const DataTable = ({ data, onRowSelected }: DataTableProps) => {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [searchValue, setSearchValue] = useState("");
 
-  const deleteLog = useMutation(api.cellLogs.remove);
+  const deleteLog = (args: { id: number }) => {
+    deleteCellLog(args.id);
+  };
   const columns = useMemo(() => createColumns(deleteLog), [deleteLog]);
-
   const table = useReactTable({
     data,
     columns,
@@ -61,7 +60,7 @@ export const DataTable = ({ data, onRowSelected }: DataTableProps) => {
     enableRowSelection: true,
     enableMultiRowSelection: true,
     meta: {
-      removeRow: (id: Id<"cellLogs">) => deleteLog({ id }),
+      removeRow: (id: number) => deleteLog({ id }),
     },
   });
 
@@ -76,7 +75,7 @@ export const DataTable = ({ data, onRowSelected }: DataTableProps) => {
     const newValue = event.target.value;
     setSearchValue(newValue);
     return table.getColumn("time")?.setFilterValue(newValue);
-  }
+  };
 
   return (
     <div className="rounded-md border bg-background p-4 w-[1240px]">

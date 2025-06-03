@@ -1,55 +1,53 @@
-"use client"
+"use client";
 
-import { useState } from "react"
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-  DialogFooter,
-} from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
-import { Label } from "@/components/ui/label"
-import { useMutation } from "convex/react"
-import { api } from "../../convex/_generated/api"
-import { Radio } from "lucide-react"
-import { useToast } from "@/hooks/use-toast"
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useToast } from "@/hooks/use-toast";
+import { postCellLog } from "@/lib/client-queries";
+import { useMutation } from "convex/react";
+import { Radio } from "lucide-react";
+import { useState } from "react";
+import { api } from "../../convex/_generated/api";
 
 export const AddCellLogDialog = () => {
-  const { toast } = useToast()
-  const [open, setOpen] = useState(false)
+  const { toast } = useToast();
+  const [open, setOpen] = useState(false);
   const [form, setForm] = useState({
     time: "",
     mcc: "440",
     mnc: "10",
     tac: "",
     cid: "",
-  })
+  });
 
-  const insertLog = useMutation(api.cellLogs.insert)
+  const insertLog = useMutation(api.cellLogs.insert);
 
   const handleSubmit = async () => {
     if (!form.time || !form.mcc || !form.mnc || !form.tac || !form.cid) {
       toast({
         variant: "destructive",
         title: "入力エラー",
-        description: "すべてのフィールドを入力してください"
-      })
-      return
+        description: "すべてのフィールドを入力してください",
+      });
+      return;
     }
 
     try {
-      await insertLog({
-        ...form,
-        createdAt: Date.now(),
-      })
+      await postCellLog(form);
 
       toast({
         title: "登録完了",
-        description: "新しい基地局情報を保存しました"
-      })
+        description: "新しい基地局情報を保存しました",
+      });
 
       setForm({
         time: new Date().toISOString(),
@@ -57,21 +55,18 @@ export const AddCellLogDialog = () => {
         mnc: "",
         tac: "",
         cid: "",
-      })
-      setOpen(false)
-
+      });
+      setOpen(false);
     } catch (err) {
       toast({
         variant: "destructive",
         title: "保存エラー",
-        description: "データの保存に失敗しました"
-      })
+        description: "データの保存に失敗しました",
+      });
 
-      console.error(err)
+      console.error(err);
     }
-
-
-  }
+  };
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -93,7 +88,9 @@ export const AddCellLogDialog = () => {
               id="time"
               placeholder="20250523180527236"
               value={form.time}
-              onChange={(e) => setForm(prev => ({ ...prev, time: e.target.value }))}
+              onChange={(e) =>
+                setForm((prev) => ({ ...prev, time: e.target.value }))
+              }
             />
           </div>
 
@@ -104,7 +101,9 @@ export const AddCellLogDialog = () => {
                 id="mcc"
                 placeholder="440"
                 value={form.mcc}
-                onChange={(e) => setForm(f => ({ ...f, mcc: e.target.value }))}
+                onChange={(e) =>
+                  setForm((f) => ({ ...f, mcc: e.target.value }))
+                }
               />
             </div>
             <div className="space-y-2">
@@ -113,7 +112,9 @@ export const AddCellLogDialog = () => {
                 id="mnc"
                 placeholder="10"
                 value={form.mnc}
-                onChange={(e) => setForm(f => ({ ...f, mnc: e.target.value }))}
+                onChange={(e) =>
+                  setForm((f) => ({ ...f, mnc: e.target.value }))
+                }
               />
             </div>
           </div>
@@ -125,7 +126,9 @@ export const AddCellLogDialog = () => {
                 id="tac"
                 placeholder="1780"
                 value={form.tac}
-                onChange={(e) => setForm(f => ({ ...f, tac: e.target.value }))}
+                onChange={(e) =>
+                  setForm((f) => ({ ...f, tac: e.target.value }))
+                }
               />
             </div>
             <div className="space-y-2">
@@ -134,7 +137,9 @@ export const AddCellLogDialog = () => {
                 id="cid"
                 placeholder="2AA8D11"
                 value={form.cid}
-                onChange={(e) => setForm(f => ({ ...f, cid: e.target.value }))}
+                onChange={(e) =>
+                  setForm((f) => ({ ...f, cid: e.target.value }))
+                }
               />
             </div>
           </div>
@@ -148,5 +153,5 @@ export const AddCellLogDialog = () => {
         </DialogFooter>
       </DialogContent>
     </Dialog>
-  )
-}
+  );
+};

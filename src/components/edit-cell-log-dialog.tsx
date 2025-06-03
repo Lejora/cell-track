@@ -1,26 +1,23 @@
 "use client";
 
-import { useState } from "react";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-  DialogFooter,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { useMutation } from "convex/react";
-import { api } from "../../convex/_generated/api";
-import { Edit, Radio } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { Id } from "../../convex/_generated/dataModel";
-import { CellLog } from "./columns";
+import { patchCellLog } from "@/lib/client-queries";
+import { Edit, Radio } from "lucide-react";
+import { useState } from "react";
 
 interface EditCellLogDialogProps {
-  targetRowId: Id<"cellLogs">;
+  targetRowId: number;
   prevTime: string;
   prevMCC: string;
   prevMNC: string;
@@ -46,9 +43,6 @@ export const EditCellLogDialog = ({
     cid: prevCID,
   });
 
-  const editLog = useMutation(api.cellLogs.edit);
-  const id = targetRowId;
-
   const handleSubmit = async () => {
     if (!form.time || !form.mcc || !form.mnc || !form.tac || !form.cid) {
       toast({
@@ -60,16 +54,19 @@ export const EditCellLogDialog = ({
     }
 
     try {
-      await editLog({
-        id,
-        ...form,
+      await patchCellLog(targetRowId, {
+        time: form.time,
+        mcc: form.mcc,
+        mnc: form.mnc,
+        tac: form.tac,
+        cid: form.cid,
       });
 
       toast({
         title: "編集完了",
         description: "基地局情報を編集しました",
       });
-      
+
       setOpen(false);
     } catch (err) {
       toast({

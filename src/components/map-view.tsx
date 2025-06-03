@@ -33,7 +33,6 @@ export const MapView = ({ points }: MapViewProps) => {
 
   useEffect(() => {
     if (points.length > 0 && map && center) {
-      console.log(points)
       setCenter(points[0].location)
       map.panTo(center);
     }

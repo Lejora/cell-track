@@ -1,28 +1,30 @@
 "use client";
 
+import { SelectCellLog } from "@/db/schema";
 import { useGeolocation } from "@/hooks/use-geolocation";
-import { useQuery } from "convex/react";
 import { Map, Table } from "lucide-react";
 import { useState } from "react";
-import { api } from "../../convex/_generated/api";
-import { CellLog } from "./columns";
 import { DashboardStatus } from "./dashboard-stats";
 import { DataTable } from "./data-table";
 import { MapView } from "./map-view";
 import { Skeleton } from "./ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 
-export const DashboardBody = () => {
-  const recordCount = useQuery(api.cellLogs.count) ?? 0;
-  const data = useQuery(api.cellLogs.listAll) ?? [];
+interface DashboardBodyProps {
+  logs: SelectCellLog[];
+}
 
-  const [selectedLogs, setSelectedLogs] = useState<CellLog[]>([]);
+export const DashboardBody = ({ logs }: DashboardBodyProps) => {
+  const [selectedLogs, setSelectedLogs] = useState<SelectCellLog[]>([]);
 
   const { geolocation, isLoading, isError } = useGeolocation(selectedLogs);
 
   return (
     <div className="mx-auto max-w-7xl space-y-6 bg-background p-4 md:p-6">
-      <DashboardStatus recordCount={recordCount} selectedRecordCount={selectedLogs.length} />
+      <DashboardStatus
+        recordCount={logs.length}
+        selectedRecordCount={selectedLogs.length}
+      />
       <div>
         <Tabs defaultValue="table" className="w-full">
           <TabsList className="grid grid-cols-2 max-w-[200px]">
@@ -36,7 +38,7 @@ export const DashboardBody = () => {
             </TabsTrigger>
           </TabsList>
           <TabsContent value="table" className="mt-4 w-full">
-            <DataTable data={data} onRowSelected={setSelectedLogs} />
+            <DataTable data={logs} onRowSelected={setSelectedLogs} />
           </TabsContent>
           <TabsContent value="map" className="mt-4 w-full">
             {isLoading || isError ? (

@@ -1,5 +1,11 @@
 export const runtime = "edge";
 
+import {
+  addCellLog,
+  deleteCellLog,
+  editCellLog,
+  getMyCellLogs,
+} from "@/lib/queries";
 import { geolocationAPIResponseParser } from "@/utils/validator/geo-api-response-validator";
 import { Hono } from "hono";
 
@@ -56,12 +62,63 @@ app.post("/api/geolocation", async (c) => {
     const parsedData = geolocationAPIResponseParser(data);
 
     return c.json(parsedData);
-
   } catch (error: any) {
     return c.json({ error: "Internal Server Error", details: error }, 500);
   }
 });
 
+app.get("/api/cell-logs", async (c) => {
+  try {
+    const logs = await getMyCellLogs();
+    return c.json(logs);
+  } catch (e: any) {
+    return c.json({ error: "Unauthorized" }, 401);
+  }
+});
+
+app.post("/api/cell-logs", async (c) => {
+  try {
+    const log = await c.req.json();
+    await addCellLog(log);
+    return c.json({ ok: true });
+  } catch (e: any) {
+    return c.json({ error: e.message ?? "Error inserting log" }, 400);
+  }
+});
+
+app.delete("/api/cell-logs/:id", async (c) => {
+  try {
+    const id = parseInt(c.req.param("id"));
+    await deleteCellLog(id);
+    return c.json({ ok: true });
+  } catch (e: any) {
+    return c.json({ error: e.message ?? "Error deleting log" }, 400);
+  }
+});
+
+app.patch("/api/cell-logs/:id", async (c) => {
+  try {
+    const id = parseInt(c.req.param("id"));
+    const log = await c.req.json();
+    await editCellLog(id, log);
+    return c.json({ ok: true });
+  } catch (e: any) {
+    return c.json({ error: e.message ?? "Error editing log" }, 400);
+  }
+});
+
+export async function GET(request: Request) {
+  return app.fetch(request);
+}
+
 export async function POST(request: Request) {
+  return app.fetch(request);
+}
+
+export async function PATCH(request: Request) {
+  return app.fetch(request);
+}
+
+export async function DELETE(request: Request) {
   return app.fetch(request);
 }
