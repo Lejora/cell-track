@@ -41,7 +41,7 @@ export const DataTable = ({ data, onRowSelected }: DataTableProps) => {
 
   const columns = useMemo(() => createColumns(), []);
 
-  const table = useReactTable({
+  const table = useReactTable<SelectCellLog>({
     data,
     columns,
     state: {

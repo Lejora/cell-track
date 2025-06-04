@@ -180,7 +180,12 @@ export const createColumns = (
                           className="bg-red-600 hover:bg-red-700"
                           onClick={() => {
                             try {
-                              table.options.meta?.removeRow(log.id);
+                              // options.metaの型が渡って来ないのでキャスト(おい
+                              const meta = table.options.meta as {
+                                removeRow: (id: number) => Promise<void>
+                              }
+                              meta.removeRow(log.id);
+
                               toast({
                                 title: "消去完了",
                                 description: "基地局情報を消去しました",
