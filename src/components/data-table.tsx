@@ -21,7 +21,7 @@ import {
 import { SortingState } from "@tanstack/react-table";
 import { useEffect, useMemo, useState } from "react";
 import { SelectCellLog } from "@/db/schema";
-import { deleteCellLog } from "@/lib/client-queries";
+import { deleteCellLog, useCellLogs } from "@/lib/client-queries";
 import { AddCellLogDialog } from "./add-cell-log-dialog";
 import { createColumns } from "./columns";
 import { DataSearchBox } from "./data-search-box";
@@ -33,15 +33,14 @@ interface DataTableProps {
 }
 
 export const DataTable = ({ data, onRowSelected }: DataTableProps) => {
+  const { refresh } = useCellLogs();
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [searchValue, setSearchValue] = useState("");
 
-  const deleteLog = (args: { id: number }) => {
-    deleteCellLog(args.id);
-  };
-  const columns = useMemo(() => createColumns(deleteLog), [deleteLog]);
+  const columns = useMemo(() => createColumns(), []);
+
   const table = useReactTable({
     data,
     columns,
@@ -60,7 +59,9 @@ export const DataTable = ({ data, onRowSelected }: DataTableProps) => {
     enableRowSelection: true,
     enableMultiRowSelection: true,
     meta: {
-      removeRow: (id: number) => deleteLog({ id }),
+      removeRow: async (id: number) => {
+        await deleteCellLog(id, refresh)
+      },
     },
   });
 

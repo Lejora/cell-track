@@ -9,15 +9,15 @@ import { DataTable } from "./data-table";
 import { MapView } from "./map-view";
 import { Skeleton } from "./ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
+import { useCellLogs } from "@/lib/client-queries";
 
-interface DashboardBodyProps {
-  logs: SelectCellLog[];
-}
 
-export const DashboardBody = ({ logs }: DashboardBodyProps) => {
+export const DashboardBody = () => {
   const [selectedLogs, setSelectedLogs] = useState<SelectCellLog[]>([]);
 
   const { geolocation, isLoading, isError } = useGeolocation(selectedLogs);
+
+  const { logs } = useCellLogs();
 
   return (
     <div className="mx-auto max-w-7xl space-y-6 bg-background p-4 md:p-6">

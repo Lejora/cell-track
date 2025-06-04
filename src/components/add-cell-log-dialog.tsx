@@ -12,13 +12,12 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
-import { postCellLog } from "@/lib/client-queries";
-import { useMutation } from "convex/react";
+import { postCellLog, useCellLogs } from "@/lib/client-queries";
 import { Radio } from "lucide-react";
 import { useState } from "react";
-import { api } from "../../convex/_generated/api";
 
 export const AddCellLogDialog = () => {
+  const { refresh } = useCellLogs();
   const { toast } = useToast();
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState({
@@ -28,8 +27,6 @@ export const AddCellLogDialog = () => {
     tac: "",
     cid: "",
   });
-
-  const insertLog = useMutation(api.cellLogs.insert);
 
   const handleSubmit = async () => {
     if (!form.time || !form.mcc || !form.mnc || !form.tac || !form.cid) {
@@ -42,7 +39,7 @@ export const AddCellLogDialog = () => {
     }
 
     try {
-      await postCellLog(form);
+      await postCellLog(form, refresh);
 
       toast({
         title: "登録完了",

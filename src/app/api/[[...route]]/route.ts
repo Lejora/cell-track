@@ -1,5 +1,6 @@
 export const runtime = "edge";
 
+import { auth } from "@/auth";
 import {
   addCellLog,
   deleteCellLog,
@@ -62,17 +63,23 @@ app.post("/api/geolocation", async (c) => {
     const parsedData = geolocationAPIResponseParser(data);
 
     return c.json(parsedData);
-  } catch (error: any) {
-    return c.json({ error: "Internal Server Error", details: error }, 500);
+  } catch (e: unknown) {
+    return c.json({ error: "Internal Server Error", details: e }, 500);
   }
 });
 
 app.get("/api/cell-logs", async (c) => {
   try {
-    const logs = await getMyCellLogs();
+    const session = await auth();
+    const userId = session?.user?.id;
+
+    if (!userId) {
+      return c.json({ error: "Unauthorized" }, 401);
+    }
+    const logs = await getMyCellLogs(userId);
     return c.json(logs);
-  } catch (e: any) {
-    return c.json({ error: "Unauthorized" }, 401);
+  } catch (e: unknown) {
+    return c.json({ error: "Unauthorized", details: e }, 401);
   }
 });
 
@@ -81,8 +88,8 @@ app.post("/api/cell-logs", async (c) => {
     const log = await c.req.json();
     await addCellLog(log);
     return c.json({ ok: true });
-  } catch (e: any) {
-    return c.json({ error: e.message ?? "Error inserting log" }, 400);
+  } catch (e: unknown) {
+    return c.json({ error: e ?? "Error inserting log" }, 400);
   }
 });
 
@@ -91,8 +98,8 @@ app.delete("/api/cell-logs/:id", async (c) => {
     const id = parseInt(c.req.param("id"));
     await deleteCellLog(id);
     return c.json({ ok: true });
-  } catch (e: any) {
-    return c.json({ error: e.message ?? "Error deleting log" }, 400);
+  } catch (e: unknown) {
+    return c.json({ error: e ?? "Error deleting log" }, 400);
   }
 });
 
@@ -102,8 +109,8 @@ app.patch("/api/cell-logs/:id", async (c) => {
     const log = await c.req.json();
     await editCellLog(id, log);
     return c.json({ ok: true });
-  } catch (e: any) {
-    return c.json({ error: e.message ?? "Error editing log" }, 400);
+  } catch (e: unknown) {
+    return c.json({ error: e ?? "Error editing log" }, 400);
   }
 });
 
