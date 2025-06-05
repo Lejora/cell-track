@@ -67,4 +67,4 @@ Sessions are stored securely in a PostgreSQL database.
 
 ## 📄 License
 
-MIT © Lejora
+MIT
