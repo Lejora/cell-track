@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { CellLog } from "@/components/columns";
+import { SelectCellLog } from "@/db/schema";
 
 export interface LatLng {
   lat: number;
@@ -11,7 +11,7 @@ export interface LatLngAcc {
   accuracy?: number;
 }
 
-export const useGeolocation = (logs: CellLog[]) => {
+export const useGeolocation = (logs: SelectCellLog[]) => {
   const [geolocation, setGeolocation] = useState<LatLngAcc[]>([]);
   const [isLoading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
