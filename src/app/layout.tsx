@@ -9,7 +9,7 @@ const notoSansJP = Noto_Sans_JP({
   variable: "--font-noto-sans-jp",
   subsets: ["latin"],
   weight: ["400", "700"],
-})
+});
 
 export const metadata: Metadata = {
   title: "Cell Track",
@@ -21,12 +21,9 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
   return (
     <html lang="ja">
-      <body
-        className={`${notoSansJP.className} antialiased`}
-      >
+      <body className={`${notoSansJP.className} antialiased`}>
         <SidebarProvider>
           <main className="flex flex-col flex-1">
             <ConvexClientProvider>

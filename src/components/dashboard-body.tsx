@@ -2,6 +2,7 @@
 
 import { SelectCellLog } from "@/db/schema";
 import { useGeolocation } from "@/hooks/use-geolocation";
+import { useCellLogs } from "@/lib/client-queries";
 import { Map, Table } from "lucide-react";
 import { useState } from "react";
 import { DashboardStatus } from "./dashboard-stats";
@@ -9,8 +10,6 @@ import { DataTable } from "./data-table";
 import { MapView } from "./map-view";
 import { Skeleton } from "./ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
-import { useCellLogs } from "@/lib/client-queries";
-
 
 export const DashboardBody = () => {
   const [selectedLogs, setSelectedLogs] = useState<SelectCellLog[]>([]);

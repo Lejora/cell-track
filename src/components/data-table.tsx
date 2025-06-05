@@ -1,5 +1,7 @@
 "use client";
 
+import { SelectCellLog } from "@/db/schema";
+import { deleteCellLog, useCellLogs } from "@/lib/client-queries";
 import {
   ColumnFiltersState,
   flexRender,
@@ -8,8 +10,14 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   RowSelectionState,
+  SortingState,
   useReactTable,
 } from "@tanstack/react-table";
+import { useEffect, useMemo, useState } from "react";
+import { AddCellLogDialog } from "./add-cell-log-dialog";
+import { createColumns } from "./columns";
+import { DataSearchBox } from "./data-search-box";
+import { Pagination } from "./pagination";
 import {
   Table,
   TableBody,
@@ -18,14 +26,6 @@ import {
   TableHeader,
   TableRow,
 } from "./ui/table";
-import { SortingState } from "@tanstack/react-table";
-import { useEffect, useMemo, useState } from "react";
-import { SelectCellLog } from "@/db/schema";
-import { deleteCellLog, useCellLogs } from "@/lib/client-queries";
-import { AddCellLogDialog } from "./add-cell-log-dialog";
-import { createColumns } from "./columns";
-import { DataSearchBox } from "./data-search-box";
-import { Pagination } from "./pagination";
 
 interface DataTableProps {
   data: SelectCellLog[];
@@ -60,7 +60,7 @@ export const DataTable = ({ data, onRowSelected }: DataTableProps) => {
     enableMultiRowSelection: true,
     meta: {
       removeRow: async (id: number) => {
-        await deleteCellLog(id, refresh)
+        await deleteCellLog(id, refresh);
       },
     },
   });

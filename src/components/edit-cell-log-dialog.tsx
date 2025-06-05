@@ -55,13 +55,17 @@ export const EditCellLogDialog = ({
     }
 
     try {
-      await patchCellLog(targetRowId, {
-        time: form.time,
-        mcc: form.mcc,
-        mnc: form.mnc,
-        tac: form.tac,
-        cid: form.cid,
-      }, refresh);
+      await patchCellLog(
+        targetRowId,
+        {
+          time: form.time,
+          mcc: form.mcc,
+          mnc: form.mnc,
+          tac: form.tac,
+          cid: form.cid,
+        },
+        refresh
+      );
 
       toast({
         title: "編集完了",

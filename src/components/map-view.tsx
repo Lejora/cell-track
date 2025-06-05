@@ -28,12 +28,15 @@ export const MapView = ({ points }: MapViewProps) => {
       stylers: [{ visibility: "off" }],
     },
   ];
-  const [center, setCenter] = useState<LatLng>({ lat: INIT_CENTER_LAT, lng: INIT_CENTER_LNG })
+  const [center, setCenter] = useState<LatLng>({
+    lat: INIT_CENTER_LAT,
+    lng: INIT_CENTER_LNG,
+  });
   const zoom = INIT_ZOOM_LEVEL;
 
   useEffect(() => {
     if (points.length > 0 && map && center) {
-      setCenter(points[0].location)
+      setCenter(points[0].location);
       map.panTo(center);
     }
   }, [center, map, points]);

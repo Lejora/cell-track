@@ -1,5 +1,5 @@
-import { Search } from "lucide-react"
-import { Input } from "./ui/input"
+import { Search } from "lucide-react";
+import { Input } from "./ui/input";
 
 interface DataSearchBoxProps {
   value: string;
@@ -20,5 +20,5 @@ export const DataSearchBox = ({ value, onChange }: DataSearchBoxProps) => {
         />
       </div>
     </div>
-  )
-}
+  );
+};

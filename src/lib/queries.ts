@@ -1,7 +1,7 @@
 import { auth } from "@/auth";
 import { db } from "@/db/db";
 import { cellLogs, InsertCellLog } from "@/db/schema";
-import { eq, and } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 
 export async function getMyCellLogs(userId: string) {
   if (!userId) {

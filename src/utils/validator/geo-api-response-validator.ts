@@ -9,12 +9,12 @@ const geolocationAPIResponseSchema = z.object({
 });
 
 export const geolocationAPIResponseParser = <T>(data: T) => {
-    const parsedResult = geolocationAPIResponseSchema.safeParse(data);
-    if (!parsedResult.success) {
-        throw new Error(
-            "Invalid Response from Geolocation API: "
-            + JSON.stringify(parsedResult.error.errors)
-        )
-    }
-    return parsedResult.data
-}
+  const parsedResult = geolocationAPIResponseSchema.safeParse(data);
+  if (!parsedResult.success) {
+    throw new Error(
+      "Invalid Response from Geolocation API: " +
+        JSON.stringify(parsedResult.error.errors)
+    );
+  }
+  return parsedResult.data;
+};

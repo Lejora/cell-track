@@ -1,11 +1,22 @@
-import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from "lucide-react";
-import { Button } from "./ui/button";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
-import { CellLog } from "./columns";
+import { SelectCellLog } from "@/db/schema";
 import { Table } from "@tanstack/table-core";
+import {
+  ChevronLeft,
+  ChevronRight,
+  ChevronsLeft,
+  ChevronsRight,
+} from "lucide-react";
+import { Button } from "./ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
 
 interface PaginationProps {
-  table: Table<CellLog>
+  table: Table<SelectCellLog>;
 }
 
 export const Pagination = ({ table }: PaginationProps) => {
@@ -27,7 +38,9 @@ export const Pagination = ({ table }: PaginationProps) => {
               }}
             >
               <SelectTrigger className="h-8 w-[70px]">
-                <SelectValue placeholder={table.getState().pagination.pageSize} />
+                <SelectValue
+                  placeholder={table.getState().pagination.pageSize}
+                />
               </SelectTrigger>
               <SelectContent side="top">
                 {[10, 20, 30, 40, 50].map((pageSize) => (
@@ -84,4 +97,4 @@ export const Pagination = ({ table }: PaginationProps) => {
       </div>
     </div>
   );
-}
+};
