@@ -1,36 +1,70 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Cell Track
 
-## Getting Started
+📡 **Cell Track** is a web application that maps mobile cell tower data (MCC, MNC, TAC, CID) onto Google Maps to visualize location and estimate movement routes.
 
-First, run the development server:
+## 🔧 Features
+
+- Map cell tower locations using Google Maps
+- Visualize location history and estimated movement
+- GitHub OAuth login support
+- Per-user log storage and session management
+- 
+## 🚀 Getting Started
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/Lejora/cell-track.git
+cd cell-track
+```
+
+### 2. Install dependencies
+
+```bash
+npm install
+# or
+bun install
+```
+
+### 3. Create a `.env` file with the following variables
+
+```env
+NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=your_google_maps_api_key
+AUTH_SECRET=your_auth_secret
+AUTH_GITHUB_ID=your_github_client_id
+AUTH_GITHUB_SECRET=your_github_client_secret
+DATABASE_URL=your_postgres_database_url
+```
+
+### 4. Start the development server
 
 ```bash
 npm run dev
 # or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+bun run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🛠 Tech Stack
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| Category        | Technology                                |
+|------------------|--------------------------------------------|
+| Framework        | Next.js 15, Hono (Edge API routing)        |
+| Authentication   | Auth.js (GitHub OAuth)                     |
+| Database / ORM   | Neon (PostgreSQL), Drizzle ORM             |
+| Styling / UI     | Tailwind CSS, Shadcn UI                    |
+| External APIs    | Google Geolocation API, Google Maps API    |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🔐 Authentication
 
-## Learn More
+Authentication is handled using GitHub OAuth via Auth.js.  
+Sessions are stored securely in a PostgreSQL database.
 
-To learn more about Next.js, take a look at the following resources:
+## ✨ Roadmap (planned)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Preserve selection state when switching tabs
+- Route line drawing between cell towers
+- GeoJSON export support
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 📄 License
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+MIT © Lejora
