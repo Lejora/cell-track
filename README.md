@@ -8,7 +8,7 @@
 - Visualize location history and estimated movement
 - GitHub OAuth login support
 - Per-user log storage and session management
-- 
+
 ## 🚀 Getting Started
 
 ### 1. Clone the repository
