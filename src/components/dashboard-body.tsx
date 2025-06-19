@@ -3,6 +3,11 @@
 import { SelectCellLog } from "@/db/schema";
 import { useGeolocation } from "@/hooks/use-geolocation";
 import { useCellLogs } from "@/lib/client-queries";
+import {
+  ColumnFiltersState,
+  RowSelectionState,
+  SortingState,
+} from "@tanstack/react-table";
 import { Map, Table } from "lucide-react";
 import { useState } from "react";
 import { DashboardStatus } from "./dashboard-stats";
@@ -13,6 +18,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 
 export const DashboardBody = () => {
   const [selectedLogs, setSelectedLogs] = useState<SelectCellLog[]>([]);
+  const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
   const { geolocation, isLoading, isError } = useGeolocation(selectedLogs);
 
@@ -37,7 +45,16 @@ export const DashboardBody = () => {
             </TabsTrigger>
           </TabsList>
           <TabsContent value="table" className="mt-4 w-full">
-            <DataTable data={logs} onRowSelected={setSelectedLogs} />
+            <DataTable
+              data={logs}
+              onRowSelected={setSelectedLogs}
+              rowSelection={rowSelection}
+              setRowSelection={setRowSelection}
+              sorting={sorting}
+              setSorting={setSorting}
+              columnFilters={columnFilters}
+              setColumnFilters={setColumnFilters}
+            />
           </TabsContent>
           <TabsContent value="map" className="mt-4 w-full">
             {isLoading || isError ? (

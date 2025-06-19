@@ -13,7 +13,7 @@ import {
   SortingState,
   useReactTable,
 } from "@tanstack/react-table";
-import { useEffect, useMemo, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useMemo, useState } from "react";
 import { AddCellLogDialog } from "./add-cell-log-dialog";
 import { createColumns } from "./columns";
 import { DataSearchBox } from "./data-search-box";
@@ -30,13 +30,25 @@ import {
 interface DataTableProps {
   data: SelectCellLog[];
   onRowSelected: (row: SelectCellLog[]) => void;
+  rowSelection: RowSelectionState;
+  setRowSelection: Dispatch<SetStateAction<RowSelectionState>>;
+  sorting: SortingState;
+  setSorting: Dispatch<SetStateAction<SortingState>>;
+  columnFilters: ColumnFiltersState;
+  setColumnFilters: Dispatch<SetStateAction<ColumnFiltersState>>;
 }
 
-export const DataTable = ({ data, onRowSelected }: DataTableProps) => {
+export const DataTable = ({
+  data,
+  onRowSelected,
+  rowSelection,
+  setRowSelection,
+  sorting,
+  setSorting,
+  columnFilters,
+  setColumnFilters,
+}: DataTableProps) => {
   const { refresh } = useCellLogs();
-  const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
-  const [sorting, setSorting] = useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [searchValue, setSearchValue] = useState("");
 
   const columns = useMemo(() => createColumns(), []);
