@@ -17,14 +17,26 @@ Cell Track is a Next.js web application for importing mobile cell log data, mapp
 
 | Area | Technology |
 | --- | --- |
-| Framework | Next.js App Router, React |
+| Framework | Next.js , React |
 | API | Hono running on Next.js route handlers |
 | Authentication | Auth.js / NextAuth with GitHub OAuth |
 | Database | Neon PostgreSQL |
 | ORM | Drizzle ORM |
-| UI | Tailwind CSS, shadcn/ui-style Radix primitives, lucide-react |
+| UI | Tailwind CSS, shadcn/ui, lucide-react, tanstack-table |
 | Maps and geolocation | Google Maps JavaScript API, Google Geolocation API |
-| Data import | Custom parser and preview flow for cell log files |
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/3e078f61-4299-4df8-857e-b197b60eb6ce" width="10%" />
+  <img src="https://github.com/user-attachments/assets/a303907f-3906-4e0c-b419-840bc748ce5e" width="10%" />
+  <img src="https://github.com/user-attachments/assets/fabbbdb7-667b-4d14-beb2-d6c53661e8cb" width="10%"/>
+  <img src="https://github.com/user-attachments/assets/974dfa44-5aa7-4eab-be48-7b606dd85f15" width="10%"/>
+  <img src="https://github.com/user-attachments/assets/494c7711-3f42-4915-bded-6b2a47ca06fa" width="10%"/>
+  <img src="https://github.com/user-attachments/assets/4accfd04-e984-4db8-a4c8-11a4608c2f65" width="10%"/>
+  <img src="https://github.com/user-attachments/assets/3b92d68a-01be-4c2d-8a54-0aee01ee2f11" width="10%"/>
+  <img src="https://github.com/user-attachments/assets/b72439a6-97ce-43e0-8c39-2e36e5d07a95" width="10%"/>
+  <img src="https://github.com/user-attachments/assets/b5244af6-b77a-4cac-adb9-3726d1abe2c4" width="10%"/>
+</p>
+
 
 ## Repository Notes
 
