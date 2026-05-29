@@ -12,7 +12,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
-import { patchCellLog, useCellLogs } from "@/lib/client-queries";
+import { patchCellLog } from "@/lib/client-queries";
 import { Edit, Radio } from "lucide-react";
 import { useState } from "react";
 
@@ -23,6 +23,8 @@ interface EditCellLogDialogProps {
   prevMNC: string;
   prevCID: string;
   prevTAC: string;
+  projectId: number;
+  refresh: () => void;
 }
 
 export const EditCellLogDialog = ({
@@ -32,9 +34,10 @@ export const EditCellLogDialog = ({
   prevMCC,
   prevMNC,
   prevTAC,
+  projectId,
+  refresh,
 }: EditCellLogDialogProps) => {
   const { toast } = useToast();
-  const { refresh } = useCellLogs();
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState({
     time: prevTime,
@@ -58,6 +61,7 @@ export const EditCellLogDialog = ({
       await patchCellLog(
         targetRowId,
         {
+          projectId: projectId,
           time: form.time,
           mcc: form.mcc,
           mnc: form.mnc,

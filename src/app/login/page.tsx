@@ -27,7 +27,7 @@ export default function LoginPage() {
         <CardContent>
           <Button onClick={handleGitHubSignIn} disabled={isPending} className="w-full" size="lg">
             {isPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Github className="mr-2 h-4 w-4" />}
-            {isPending ? "Signing in..." : "GitHubでサインイン"}
+            {isPending ? "サインイン中..." : "GitHubでサインイン"}
           </Button>
         </CardContent>
       </Card>

@@ -1,8 +1,6 @@
-import { SidebarProvider } from "@/components/ui/sidebar";
 import { Toaster } from "@/components/ui/toaster";
 import type { Metadata } from "next";
 import { Noto_Sans_JP } from "next/font/google";
-import { ConvexClientProvider } from "./ConvexClientProvider";
 import "./globals.css";
 
 const notoSansJP = Noto_Sans_JP({
@@ -24,14 +22,10 @@ export default function RootLayout({
   return (
     <html lang="ja">
       <body className={`${notoSansJP.className} antialiased`}>
-        <SidebarProvider>
-          <main className="flex flex-col flex-1">
-            <ConvexClientProvider>
-              {children}
-              <Toaster />
-            </ConvexClientProvider>
-          </main>
-        </SidebarProvider>
+        <main className="flex flex-col flex-1">
+          {children}
+          <Toaster />
+        </main>
       </body>
     </html>
   );

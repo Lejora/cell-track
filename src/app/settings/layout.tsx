@@ -1,6 +1,6 @@
 import { SettingsProvider } from "@/contexts/settings-context";
 
-export default function DashboardLayout({
+export default function SettingsLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
