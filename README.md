@@ -49,8 +49,8 @@ The app reads configuration from environment variables and does not include real
 ```bash
 git clone https://github.com/Lejora/cell-track.git
 cd cell-track
-npm install
-npm run dev
+bun install
+bun run dev
 ```
 
 Create `.env.local` with the following values:
@@ -67,8 +67,8 @@ NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=your_browser_google_maps_api_key
 For database schema management:
 
 ```bash
-npm run db:generate
-npm run db:migrate
+bun run db:generate
+bun run db:migrate
 ```
 
 ## License
